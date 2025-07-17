@@ -35,21 +35,24 @@ pipeline {
             }
         }
         
-       stage('SonarQube Analysis') {
+      stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('sonar') {
-             withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-        sh """
-          ${tool 'sonar-scanner'}/bin/sonar-scanner \
-            -Dsonar.projectName=BoardGame \
-            -Dsonar.projectKey=BoardGame \
-            -Dsonar.java.binaries=. \
-            -Dsonar.login=$SONAR_TOKEN
-        """
+            withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                script {
+                    def scannerHome = tool 'sonar-scanner'
+                    sh '''
+                      ${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectName=BoardGame \
+                        -Dsonar.projectKey=BoardGame \
+                        -Dsonar.java.binaries=. \
+                        -Dsonar.sources=. \
+                        -Dsonar.login=''' + SONAR_TOKEN
                 }
             }
         }
     }
+}
         
         stage('Quality Gate') {
             steps {
