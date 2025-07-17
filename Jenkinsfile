@@ -41,7 +41,8 @@ pipeline {
             sh '''$SCANNER_HOME/bin/sonar-scanner \
                 -Dsonar.projectName=BoardGame \
                 -Dsonar.projectKey=BoardGame \
-                -Dsonar.java.binaries=.'''
+                -Dsonar.java.binaries=.
+                -Dsonar.login=squ_2c22759e8c49a8ecf8ba1dd1af8736055300b92f'''
                 }
             }
         }
