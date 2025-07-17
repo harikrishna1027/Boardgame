@@ -39,16 +39,14 @@ pipeline {
     steps {
         withSonarQubeEnv('sonar') {
             withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                script {
-                    def scannerHome = tool 'sonar-scanner'
-                    sh '''
-                      ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectName=BoardGame \
-                        -Dsonar.projectKey=BoardGame \
-                        -Dsonar.java.binaries=. \
-                        -Dsonar.sources=. \
-                        -Dsonar.login=''' + SONAR_TOKEN
-                }
+                 sh """
+          ${tool 'sonar-scanner'}/bin/sonar-scanner \
+            -Dsonar.projectName=BoardGame \
+            -Dsonar.projectKey=BoardGame \
+            -Dsonar.sources=. \
+            -Dsonar.java.binaries=. \
+            -Dsonar.login=$SONAR_TOKEN
+        """
             }
         }
     }
