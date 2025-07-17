@@ -38,11 +38,14 @@ pipeline {
        stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('sonar') {
-            sh '''$SCANNER_HOME/bin/sonar-scanner \
-                -Dsonar.projectName=BoardGame \
-                -Dsonar.projectKey=BoardGame \
-                -Dsonar.java.binaries=.
-                -Dsonar.login=$SONAR_TOKEN'''
+             withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+        sh """
+          ${tool 'sonar-scanner'}/bin/sonar-scanner \
+            -Dsonar.projectName=BoardGame \
+            -Dsonar.projectKey=BoardGame \
+            -Dsonar.java.binaries=. \
+            -Dsonar.login=$SONAR_TOKEN
+        """
                 }
             }
         }
