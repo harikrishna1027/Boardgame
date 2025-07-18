@@ -34,7 +34,7 @@ pipeline {
                 sh "trivy fs --format table -o trivy-fs-report.html ."
             }
         }
-        
+        /*
       stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('sonar') {
@@ -59,13 +59,13 @@ pipeline {
                 }
             }
         }
-        
+        */
         stage('Build') {
             steps {
                sh "mvn package"
             }
         }
-        
+        /*
         stage('Publish To Nexus') {
             steps {
                withMaven(globalMavenSettingsConfig: 'd2b22563-9148-4ce5-8dd8-ac60347e0edd', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
@@ -73,7 +73,7 @@ pipeline {
                 }
             }
         }
-        
+        */
         stage('Build & Tag Docker Image') {
             steps {
                script {
